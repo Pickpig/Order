@@ -17,15 +17,15 @@ namespace babyProgram
         public List<int> nullArea = new List<int>(); //空位置；
 
 
-        public bool[] OnSwitch = new bool[5] {false, false, false, false, false}; //每行的开关；
+        public bool[] OnSwitch = new bool[5] {false, false, false, false, false}; //针对最终的二维数组，每行的开关；默认数组每行没有填充数据
 
 
         public int[] orderNum = new int[5]; //存放顺序位对应的数据量；
-        public List<int[]> packageOfLine = new List<int[]>(); //每行数据包的集合；
+        public List<int[]> packageOfLine = new List<int[]>(); //每行数据包的集合；获取用户数据，以每行为一个数组存储；
 
         
 
-        public code3(int[,] c, int[] s)
+        public code3(int[,] c, int[] s)//获取用户数据，和预期的排列顺序；
         {
             Client_Table = c;
             Service_Table = s;
@@ -33,7 +33,7 @@ namespace babyProgram
 
 
         /// <summary>
-        ///     元素在用户表内的数量；
+        ///  用户数据每行第一列的元素在用户表内的数量；
         /// </summary>
         /// <param name="a"></param>
         /// <returns></returns>
@@ -52,7 +52,7 @@ namespace babyProgram
         }
 
         /// <summary>
-        ///     用户数据每行打包成数组的集合；
+        ///     用户数据每行打包成数组的集合；五行就是大小为5 的一维数组
         /// </summary>
         /// <returns></returns>
         public List<int[]> GetClientDataOfLine()
@@ -73,14 +73,14 @@ namespace babyProgram
         }
 
         /// <summary>
-        ///     客户表内按照顺序排列的数据数量数组；
+        ///     客户表内按照顺序排列的数据数量数组；以每行的第一列元素为关键参考值；
         /// </summary>
         /// <returns></returns>
         public int[] GetDataOrderArr()
         {
             var n = 0; //计数用的；
             var temp = new int[5];
-            for (var i = 0; i < Service_Table.Length; i++) //固定顺序位的数组；
+            for (var i = 0; i < Service_Table.Length; i++) //遍历顺序位的数组；
             {
                 for (var j = 0; j < Service_Table.Length; j++)
                 {
@@ -98,6 +98,7 @@ namespace babyProgram
 
         /// <summary>
         ///     用户表在顺序表内缺少的位置集合；
+        ///     根据用户数据获取的顺序数量数组，便利数组元素，如果为0，说明相应位置没有元素。将位置添加到集合。
         /// </summary>
         /// <returns></returns>
         public List<int> IsGetCTabInSerTaNull()
@@ -114,12 +115,13 @@ namespace babyProgram
             return NullArea;
         }
         /// <summary>
-        /// 排好不重复的行后，得到的数组；
+        /// 第一次排
+        /// 排不重复的行后，得到的数组；
         /// </summary>
         /// <returns></returns>
         public int[,] GetFirstOrderArr()
         {
-            // bool onSwitch = false;//默认没占据行；
+            
             finalTemp = new int[5, 7]; //最终的排序的二维数组；
             packageOfLine = GetClientDataOfLine(); //每行数据包的集合；
             nullArea = IsGetCTabInSerTaNull(); //空位置；
